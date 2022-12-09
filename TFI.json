@@ -1,0 +1,590 @@
+[
+    {
+        "id": "a433ad12c9378bd7",
+        "type": "tab",
+        "label": "Transit",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b9eb633e51f8ccf4",
+        "type": "http request",
+        "z": "a433ad12c9378bd7",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.nationaltransport.ie/gtfsr/v1?format=json",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Cache-Control",
+                "keyValue": "",
+                "valueType": "no-cache",
+                "valueValue": ""
+            },
+            {
+                "keyType": "other",
+                "keyValue": "x-api-key",
+                "valueType": "other",
+                "valueValue": "512de165de924009bbb2aa2b6c9eeb48"
+            }
+        ],
+        "x": 590,
+        "y": 120,
+        "wires": [
+            [
+                "4a9ef200d75e9b1b",
+                "7b94d674286bace3"
+            ]
+        ]
+    },
+    {
+        "id": "dad9265666b90db2",
+        "type": "inject",
+        "z": "a433ad12c9378bd7",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 430,
+        "y": 120,
+        "wires": [
+            [
+                "b9eb633e51f8ccf4"
+            ]
+        ]
+    },
+    {
+        "id": "96a69b654e0a7c21",
+        "type": "debug",
+        "z": "a433ad12c9378bd7",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "4a9ef200d75e9b1b",
+        "type": "function",
+        "z": "a433ad12c9378bd7",
+        "name": "Filter Route",
+        "func": "let result = [];\nmsg.payload.Entity.forEach(dat => {\n    if (dat.Id.includes(\"60-38-b12-1\")) {\n        result.push(dat)\n    }\n})\nmsg.payload = result;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 120,
+        "wires": [
+            [
+                "e933666e671ec46a"
+            ]
+        ]
+    },
+    {
+        "id": "d05ba899b7280ad9",
+        "type": "function",
+        "z": "a433ad12c9378bd7",
+        "name": "Filter Stop ",
+        "func": "let result = [];\n\nmsg.payload.TripUpdate.StopTimeUpdate.forEach(dat => {\n    if (dat.StopId.includes(\"8220DB000002\")) {\n        result.push(msg.payload)\n    }\n})\nmsg.payload = result;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 160,
+        "wires": [
+            [
+                "96a69b654e0a7c21"
+            ]
+        ]
+    },
+    {
+        "id": "e933666e671ec46a",
+        "type": "split",
+        "z": "a433ad12c9378bd7",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 930,
+        "y": 120,
+        "wires": [
+            [
+                "d05ba899b7280ad9",
+                "9cfe2bc5f15e8b3a"
+            ]
+        ]
+    },
+    {
+        "id": "7b94d674286bace3",
+        "type": "debug",
+        "z": "a433ad12c9378bd7",
+        "name": "debug 4",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "9cfe2bc5f15e8b3a",
+        "type": "debug",
+        "z": "a433ad12c9378bd7",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "08372f518b3d1694",
+        "type": "http request",
+        "z": "a433ad12c9378bd7",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 410,
+        "y": 360,
+        "wires": [
+            [
+                "5d1716baba40fe03",
+                "294cf7eb98c365e9",
+                "65304f66249ede9f",
+                "da0f449f809e2b70"
+            ]
+        ]
+    },
+    {
+        "id": "62e112536e6dfa51",
+        "type": "function",
+        "z": "a433ad12c9378bd7",
+        "name": "Set Stop",
+        "func": "var stop_id = 189001;\nmsg.url = \"https://journeyplanner.transportforireland.ie/nta/XML_DM_REQUEST?language=en&std3_suggestMacro=std3_suggest&std3_commonMacro=dm&includeCompleteStopSeq=1&mode=direct&useAllStops=1&type_dm=any&nameInfo_dm=\" + stop_id + \"&outputFormat=rapidJSON\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 360,
+        "wires": [
+            [
+                "08372f518b3d1694"
+            ]
+        ]
+    },
+    {
+        "id": "a740424328f70a4d",
+        "type": "inject",
+        "z": "a433ad12c9378bd7",
+        "name": "",
+        "props": [],
+        "repeat": "600",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 360,
+        "wires": [
+            [
+                "62e112536e6dfa51"
+            ]
+        ]
+    },
+    {
+        "id": "5d1716baba40fe03",
+        "type": "function",
+        "z": "a433ad12c9378bd7",
+        "name": "next bus",
+        "func": "var time = msg.payload.stopEvents[0].departureTimeEstimated\nvar bus = msg.payload.stopEvents[0].transportation.name\nmsg.payload = bus + \" \" + time\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 280,
+        "wires": [
+            [
+                "f41a00d32408f498"
+            ]
+        ]
+    },
+    {
+        "id": "294cf7eb98c365e9",
+        "type": "function",
+        "z": "a433ad12c9378bd7",
+        "name": "2nd bus",
+        "func": "var time = msg.payload.stopEvents[1].departureTimeEstimated\nvar bus = msg.payload.stopEvents[1].transportation.name\nmsg.payload = bus + \" \" + time\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 340,
+        "wires": [
+            [
+                "bd44815ab4d0fe83"
+            ]
+        ]
+    },
+    {
+        "id": "65304f66249ede9f",
+        "type": "function",
+        "z": "a433ad12c9378bd7",
+        "name": "3rd bus",
+        "func": "var time = msg.payload.stopEvents[2].departureTimeEstimated\nvar bus = msg.payload.stopEvents[2].transportation.name\nmsg.payload = bus + \" \" + time\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 400,
+        "wires": [
+            [
+                "4d09a9bd14a31fad"
+            ]
+        ]
+    },
+    {
+        "id": "da0f449f809e2b70",
+        "type": "function",
+        "z": "a433ad12c9378bd7",
+        "name": "4th bus",
+        "func": "var time = msg.payload.stopEvents[3].departureTimeEstimated\nvar bus = msg.payload.stopEvents[3].transportation.name\nmsg.payload = bus + \" \" + time\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 460,
+        "wires": [
+            [
+                "95d52d78936e6ad8"
+            ]
+        ]
+    },
+    {
+        "id": "f41a00d32408f498",
+        "type": "ha-sensor",
+        "z": "a433ad12c9378bd7",
+        "name": "Next Bus",
+        "entityConfig": "48a30473d312ed4d",
+        "version": 0,
+        "state": "payload",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 740,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4d09a9bd14a31fad",
+        "type": "ha-sensor",
+        "z": "a433ad12c9378bd7",
+        "name": "3rd Bus",
+        "entityConfig": "f688607ec45adac6",
+        "version": 0,
+        "state": "payload",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 740,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "95d52d78936e6ad8",
+        "type": "ha-sensor",
+        "z": "a433ad12c9378bd7",
+        "name": "4rth Bus",
+        "entityConfig": "5de02e0b07a7bba6",
+        "version": 0,
+        "state": "payload",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 740,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bd44815ab4d0fe83",
+        "type": "ha-sensor",
+        "z": "a433ad12c9378bd7",
+        "name": "2nd Bus",
+        "entityConfig": "691c9a5f53d89e84",
+        "version": 0,
+        "state": "payload",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 740,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "48a30473d312ed4d",
+        "type": "ha-entity-config",
+        "server": "ee8cdebf.dbf2e",
+        "deviceConfig": "33e13df0beda88ad",
+        "name": "1st Bus",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "1st Bus"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false
+    },
+    {
+        "id": "f688607ec45adac6",
+        "type": "ha-entity-config",
+        "server": "ee8cdebf.dbf2e",
+        "deviceConfig": "e15f56412ec449cf",
+        "name": "3rd Bus",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "3rd Bus"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false
+    },
+    {
+        "id": "5de02e0b07a7bba6",
+        "type": "ha-entity-config",
+        "server": "ee8cdebf.dbf2e",
+        "deviceConfig": "ded93baec45a1198",
+        "name": "4th bus",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "4th Bus"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false
+    },
+    {
+        "id": "691c9a5f53d89e84",
+        "type": "ha-entity-config",
+        "server": "ee8cdebf.dbf2e",
+        "deviceConfig": "ad99b2648eb86b0b",
+        "name": "2nd Bus",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "2nd Bus"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false
+    },
+    {
+        "id": "ee8cdebf.dbf2e",
+        "type": "server",
+        "name": "Home Assistant",
+        "version": 5,
+        "addon": true,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": false,
+        "cacheJson": true,
+        "heartbeat": false,
+        "heartbeatInterval": "30",
+        "areaSelector": "friendlyName",
+        "deviceSelector": "friendlyName",
+        "entitySelector": "friendlyName",
+        "statusSeparator": "at: ",
+        "statusYear": "hidden",
+        "statusMonth": "short",
+        "statusDay": "numeric",
+        "statusHourCycle": "h23",
+        "statusTimeFormat": "h:m",
+        "enableGlobalContextStore": true
+    },
+    {
+        "id": "33e13df0beda88ad",
+        "type": "ha-device-config",
+        "name": "1stBus",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "e15f56412ec449cf",
+        "type": "ha-device-config",
+        "name": "3rdBus",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "ded93baec45a1198",
+        "type": "ha-device-config",
+        "name": "4thBus",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "ad99b2648eb86b0b",
+        "type": "ha-device-config",
+        "name": "2ndBus",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    }
+]
